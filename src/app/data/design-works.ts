@@ -156,19 +156,4 @@ const actualDesignWorks: DesignWork[] = [
   },
 ];
 
-export const designWorks: DesignWork[] = [
-  ...actualDesignWorks,
-  ...designCategories
-    .filter(
-      (category) =>
-        !actualDesignWorks.some((work) => work.category === category.name),
-    )
-    .map((category, index) => ({
-      id: `design-placeholder-${index + 1}`,
-      title: category.name,
-      category: category.name,
-      description: category.description,
-      image: null,
-      imageAlt: null,
-    })),
-];
+export const designWorks: DesignWork[] = actualDesignWorks;

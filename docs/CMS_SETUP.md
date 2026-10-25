@@ -13,9 +13,10 @@ private to your local environment and deployment settings. Do not add a
 service-role key to this application.
 
 In **Authentication → Providers → Email**, keep email/password sign-in enabled
-and disable public sign-ups. Create the administrator account yourself from the
-Supabase Dashboard's **Authentication → Users** page; do not enable public
-registration or expose a registration flow.
+and disable public sign-ups. The local Supabase config also disables both
+`[auth].enable_signup` and `[auth.email].enable_signup`. Create the administrator
+account yourself from the Supabase Dashboard's **Authentication → Users** page;
+do not enable public registration or expose a registration flow.
 
 ## 2. Apply the database migrations
 
@@ -40,15 +41,13 @@ disposable local test, install the Supabase CLI and Docker, then from the
 repository root:
 
 ```powershell
-supabase init
-# Keep the generated config local to the repo and set [auth].enable_signup = false.
+# The checked-in config disables [auth].enable_signup and [auth.email].enable_signup.
 supabase start
 supabase migration up --local
 supabase status -o env
 ```
 
-`supabase init` is only needed because this repository does not currently have
-a CLI config file. Use the local API URL and publishable/anon key reported by
+Use the local API URL and publishable/anon key reported by
 `supabase status` in `.env.local`. Create one test user in the local Studio,
 add only that user's UUID to `portfolio_admins`, then test login, edits,
 published public reads, and denied writes from an anonymous session and a

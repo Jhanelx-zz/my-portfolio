@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { Image as ImageIcon, X } from "lucide-react";
+import { X } from "lucide-react";
 import { designCategories, type DesignWork } from "../data/design-works";
 
 const imageSizes =
@@ -115,19 +115,9 @@ export default function DesignGallery({
                 />
               ) : (
                 <div
-                  aria-label="Placeholder image; add your own design work here"
-                  className="flex h-full flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top_right,_rgba(16,185,129,0.20),_transparent_55%),linear-gradient(135deg,_#edf3ef,_#dbe7df)] px-6 text-center dark:bg-[radial-gradient(ellipse_at_top_right,_rgba(16,185,129,0.18),_transparent_55%),linear-gradient(135deg,_#1b2921,_#101713)]"
-                >
-                  <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-700/20 bg-white/60 text-emerald-700 dark:border-emerald-400/20 dark:bg-black/10 dark:text-emerald-300">
-                    <ImageIcon size={26} strokeWidth={1.5} aria-hidden="true" />
-                  </span>
-                  <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-800 dark:text-emerald-300">
-                    Image placeholder
-                  </span>
-                  <span className="mt-2 max-w-52 text-sm text-[#536159] dark:text-[#b2c0b7]">
-                    Add your own work to this category
-                  </span>
-                </div>
+                  aria-hidden="true"
+                  className="h-full bg-[radial-gradient(ellipse_at_top_right,_rgba(16,185,129,0.20),_transparent_55%),linear-gradient(135deg,_#edf3ef,_#dbe7df)] dark:bg-[radial-gradient(ellipse_at_top_right,_rgba(16,185,129,0.18),_transparent_55%),linear-gradient(135deg,_#1b2921,_#101713)]"
+                />
               )}
               {creatorCredit && (work.video || work.image) && (
                 <span

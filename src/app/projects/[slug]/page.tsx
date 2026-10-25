@@ -59,10 +59,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             priority
           />
         ) : (
-          <div className="px-6 text-center">
-            <p className="font-mono text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Project preview</p>
-            <p className="mt-2 text-base font-medium text-gray-700 dark:text-gray-300">Screenshot needed</p>
-          </div>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(16,185,129,0.22),_transparent_55%),linear-gradient(135deg,_#edf3ef,_#dbe7df)] dark:bg-[radial-gradient(ellipse_at_top_right,_rgba(16,185,129,0.18),_transparent_55%),linear-gradient(135deg,_#1b2921,_#101713)]"
+          />
         )}
       </div>
 

@@ -196,12 +196,10 @@ export default function HomeView({
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     ) : (
-                      <div className="flex h-full items-center justify-center bg-[#e9efeb] px-6 text-center dark:bg-[#17211b]">
-                        <div>
-                          <p className="font-mono text-[10px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Project preview</p>
-                          <p className="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">Screenshot needed</p>
-                        </div>
-                      </div>
+                      <div
+                        aria-hidden="true"
+                        className="h-full bg-[radial-gradient(ellipse_at_top_right,_rgba(16,185,129,0.22),_transparent_55%),linear-gradient(135deg,_#edf3ef,_#dbe7df)] dark:bg-[radial-gradient(ellipse_at_top_right,_rgba(16,185,129,0.18),_transparent_55%),linear-gradient(135deg,_#1b2921,_#101713)]"
+                      />
                     )}
                     <div className="project-overlay flex items-end justify-end p-4 text-sm font-semibold text-white">
                       <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-black/30 px-3 py-1.5 backdrop-blur-sm">

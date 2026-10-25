@@ -50,8 +50,9 @@ async function AdminLoginContent({
           </p>
           <h1 className="mt-3 text-2xl font-bold">Admin sign-in is not configured</h1>
           <p className="mt-3 text-sm leading-6 text-[#536159] dark:text-[#b2c0b7]">
-            Add your Supabase project URL and publishable key to the local
-            environment, then apply the CMS migration.
+            Configure the Supabase project URL and publishable key for this
+            deployment, apply the CMS migrations, and authorize an administrator
+            account.
           </p>
           <Link
             href="/"
