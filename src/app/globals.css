@@ -93,6 +93,8 @@ body::before {
 
 :root.dark .text-gradient {
   background: linear-gradient(90deg, #34d399 0%, #a7f3d0 35%, #99f6e4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .status-dot {
