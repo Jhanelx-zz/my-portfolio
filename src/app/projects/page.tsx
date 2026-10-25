@@ -1,21 +1,20 @@
 // src/app/projects/page.tsx
 
 import Link from "next/link";
-import { projectsData } from "../data/projects";
+import { getPublishedProjects } from "@/lib/cms/public-data";
 
 export const metadata = {
   title: "Projects",
   description: "Explore web and software development projects built by Jhunnel C. Carillo.",
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const result = await getPublishedProjects();
+  const projects = result.data;
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
-      {/* Terminal Section Header */}
       <div className="mb-12">
-        <p className="font-mono text-sm text-emerald-700 dark:text-emerald-400">
-          visitor@portfolio:~$ ls ./projects
-        </p>
         <h1 className="mt-3 text-3xl font-bold sm:text-4xl">Featured Projects</h1>
         <p className="mt-4 max-w-2xl leading-7 text-[#536159] dark:text-[#b2c0b7]">
           A collection of software systems, web applications, and academic projects I have developed or conceptualized during my BSIT degree.
@@ -24,7 +23,7 @@ export default function ProjectsPage() {
 
       {/* Projects Grid */}
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {projectsData.map((project) => (
+        {projects.map((project) => (
           <article
             key={project.slug}
             className="flex flex-col justify-between rounded-xl border border-black/10 bg-white p-6 shadow-sm transition hover:border-emerald-500/50 hover:shadow-md dark:border-white/10 dark:bg-[#111916]"

@@ -2,8 +2,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import SiteFrame from "./components/SiteFrame";
+import { getPublicSocialLinks, getPublishedProfile } from "@/lib/cms/public-data";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,19 +24,34 @@ export const metadata: Metadata = {
     "The personal portfolio of Jhunnel C. Carillo, a graduating BSIT student preparing for OJT opportunities.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const [socials, profile] = await Promise.all([
+    getPublicSocialLinks(),
+    getPublishedProfile(),
+  ]);
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col bg-[#f5f7f5] text-[#17211d] dark:bg-[#0b100e] dark:text-[#e6eee9]">
-        <Navbar />
-        <div className="flex-1">{children}</div>
-        <Footer />
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try { const theme = localStorage.getItem("theme"); const dark = theme ? theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; document.documentElement.classList.toggle("dark", dark); } catch {}`,
+          }}
+        />
+      </head>
+      <body className="flex min-h-full flex-col">
+        <SiteFrame
+          socialLinks={socials.data}
+          resumeUrl={profile.mode === "database" ? profile.data?.resumeUrl ?? null : null}
+        >
+          {children}
+        </SiteFrame>
       </body>
     </html>
   );

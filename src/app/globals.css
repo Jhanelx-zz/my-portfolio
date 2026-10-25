@@ -2,8 +2,15 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f7f5;
+  --foreground: #17241d;
+  color-scheme: light;
+}
+
+:root.dark {
+  --background: #0b100e;
+  --foreground: #e6eee9;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -13,15 +20,142 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(circle at top, rgba(16, 185, 129, 0.08), transparent 30%),
+    linear-gradient(180deg, var(--background) 0%, color-mix(in srgb, var(--background) 94%, #000) 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(circle at center, black 30%, transparent 100%);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.editorial-card {
+  border-radius: 1rem;
+  border: 1px solid rgba(15, 23, 18, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 1.75rem;
+  box-shadow: 0 4px 20px rgba(15, 23, 18, 0.08);
+  transition: all 0.25s ease;
+}
+
+:root.dark .editorial-card {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(17, 25, 22, 0.92);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.editorial-card:hover {
+  border-color: rgba(16, 185, 129, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.12);
+}
+
+.editorial-badge {
+  border-radius: 0.5rem;
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  background-color: rgba(16, 185, 129, 0.12);
+  padding: 0.4rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #047857;
+}
+
+:root.dark .editorial-badge {
+  color: #34d399;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #047857 0%, #059669 45%, #0f766e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+:root.dark .text-gradient {
+  background: linear-gradient(90deg, #34d399 0%, #a7f3d0 35%, #99f6e4 100%);
+}
+
+.status-dot {
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 9999px;
+  background: #34d399;
+  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.75);
+  animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(52, 211, 153, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0);
+  }
+}
+
+.glow-card {
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glow-card:hover {
+  border-color: rgba(52, 211, 153, 0.7);
+  box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.2), 0 12px 30px rgba(16, 185, 129, 0.12);
+  transform: translateY(-3px);
+}
+
+.project-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  background: linear-gradient(180deg, rgba(6, 10, 8, 0.1), rgba(6, 10, 8, 0.86));
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.project-card:hover .project-overlay {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .status-dot,
+  .project-overlay,
+  .glow-card,
+  .editorial-card {
+    animation: none !important;
+    transition: none !important;
+  }
 }

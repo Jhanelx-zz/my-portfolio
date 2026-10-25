@@ -1,75 +1,135 @@
 // src/app/resume/page.tsx
 
+import {
+  getPublicContact,
+  getPublishedEducation,
+  getPublishedExperience,
+  getPublishedProfile,
+  getPublishedProjects,
+  getPublishedSkills,
+} from "@/lib/cms/public-data";
+
 export const metadata = {
   title: "Résumé",
   description: "Résumé overview of Jhunnel C. Carillo.",
 };
 
-export default function ResumePage() {
+type ResumeEntry = {
+  label?: string;
+  meta?: string;
+  description?: string;
+};
+
+export default async function ResumePage() {
+  const [
+    projectsResult,
+    skillsResult,
+    experienceResult,
+    educationResult,
+    profileResult,
+    contactResult,
+  ] = await Promise.all([
+    getPublishedProjects(),
+    getPublishedSkills(),
+    getPublishedExperience(),
+    getPublishedEducation(),
+    getPublishedProfile(),
+    getPublicContact(),
+  ]);
+  const resumeSections: { title: string; content: ResumeEntry[] }[] = [
+    {
+      title: "PROJECTS",
+      content: projectsResult.data.map((project) => ({
+        label: `${project.name}: ${project.shortDescription}`,
+      })),
+    },
+    {
+      title: "SKILLS",
+      content:
+        skillsResult.mode === "database"
+          ? skillsResult.data.map((skill) => ({
+              label: `${skill.category}: ${skill.name}${skill.proficiencyLabel ? ` (${skill.proficiencyLabel})` : ""}`,
+            }))
+          : [
+              { label: "Technical: Event Technical Support (Live Streaming/LED Wall), Hardware Maintenance, Basic PHP & MySQL." },
+              { label: "Soft Skills: Administrative Evaluation, Customer Relations, Team Collaboration, and Adaptability." },
+            ],
+    },
+    ...(experienceResult.mode === "database" && experienceResult.data.length > 0
+      ? [{
+          title: "EXPERIENCE",
+          content: experienceResult.data.map((item) => ({
+            label: `${item.jobTitle} — ${item.organization}${item.description ? `: ${item.description}` : ""}`,
+          })),
+        }]
+      : []),
+    ...(educationResult.mode === "database" && educationResult.data.length > 0
+      ? [{
+          title: "EDUCATION",
+          content: educationResult.data.map((item) => ({
+            label: `${item.qualification}, ${item.fieldOfStudy} — ${item.institution}`,
+          })),
+        }]
+      : []),
+  ];
+  const profile =
+    profileResult.mode === "database" ? profileResult.data : null;
+  const contact =
+    contactResult.mode === "database"
+      ? contactResult.data
+      : { email: "jhannellacarillo.official@gmail.com", phone: null, introduction: "" };
+
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16">
-      <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p className="font-mono text-sm text-emerald-700 dark:text-emerald-400">
-            visitor@portfolio:~$ view ./resume.pdf
-          </p>
-          <h1 className="mt-3 text-3xl font-bold sm:text-4xl">Online Résumé</h1>
+    <div className="min-h-screen bg-[#2f2f2f] px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl overflow-hidden border border-[#d8d8d8] bg-white shadow-[0_14px_30px_rgba(0,0,0,0.2)]">
+        <div className="grid min-h-[760px] md:grid-cols-[320px_1fr]">
+          <aside className="border-r border-[#d9d9d9] bg-[#f4f4f4] p-6">
+            <div className="border-2 border-[#b8d5f7] bg-white p-4 shadow-sm">
+              <div className="flex min-h-[430px] flex-col justify-between border border-[#d9d9d9] bg-white p-4 text-[10px] text-gray-700">
+                <div>
+                  <p className="font-semibold uppercase tracking-[0.18em] text-black">{profile?.fullName || "Jhunnel C. Carillo"}</p>
+                  <div className="mt-4 space-y-2 border-t border-[#eaeaea] pt-3">
+                    <p>Student Assistant</p>
+                    <p>MISITS Department</p>
+                    <p>OLLCF</p>
+                    <p>BSIT Student</p>
+                  </div>
+                </div>
+
+                <div className="space-y-2 border-t border-[#eaeaea] pt-3">
+                  <p>Contact</p>
+                  {contact?.email && <p>{contact.email}</p>}
+                  {contact?.phone && <p>{contact.phone}</p>}
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <main className="bg-white px-8 py-7 sm:px-10">
+            <div className="mb-6 h-px bg-black/70" />
+
+            <div className="space-y-8">
+              {resumeSections.map((section) => (
+                <section key={section.title} className="space-y-3">
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-black">
+                    {section.title}
+                  </h3>
+
+                  <div className="h-px bg-black/70" />
+
+                  <div className="space-y-3 text-[15px] leading-7 text-black">
+                    {section.content.map((item, index) => (
+                      <div key={`${section.title}-${index}`} className="flex items-start gap-3">
+                        <span className="mt-2 inline-block h-2.5 w-2.5 rounded-full bg-black" />
+                        <p>{item.label || item.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          </main>
         </div>
-
-        <a
-          href="/files/resume.pdf"
-          download
-          className="inline-flex items-center gap-2 rounded-lg bg-emerald-700 px-4 py-2.5 font-mono text-sm font-semibold text-white transition hover:bg-emerald-800 dark:bg-emerald-500 dark:text-[#07110b] dark:hover:bg-emerald-400"
-        >
-          <span>Download PDF</span>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
-        </a>
-      </div>
-
-      <div className="rounded-xl border border-black/10 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-[#111916] space-y-8">
-        {/* Header Summary */}
-        <div className="border-b border-black/10 pb-6 dark:border-white/10">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Jhunnel C. Carillo</h2>
-          <p className="text-emerald-700 dark:text-emerald-400 font-medium">
-            Bachelor of Science in Information Technology (BSIT) Student
-          </p>
-          <p className="mt-2 text-sm text-[#536159] dark:text-[#b2c0b7]">
-            Our Lady of Lourdes College Foundation • Paracale / Daet, Camarines Norte
-          </p>
-        </div>
-
-        {/* Education */}
-        <section>
-          <h3 className="font-mono text-xs text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-2">
-            Education
-          </h3>
-          <p className="font-bold text-gray-900 dark:text-gray-100">BS in Information Technology</p>
-          <p className="text-sm text-[#536159] dark:text-[#b2c0b7]">Our Lady of Lourdes College Foundation (2023 – Present)</p>
-        </section>
-
-        {/* Experience */}
-        <section>
-          <h3 className="font-mono text-xs text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-2">
-            Experience
-          </h3>
-          <p className="font-bold text-gray-900 dark:text-gray-100">Student Assistant — MISITS Department</p>
-          <p className="text-xs text-emerald-600 dark:text-emerald-400 font-mono">2025 – Present</p>
-          <p className="mt-2 text-sm text-[#536159] dark:text-[#b2c0b7]">
-            Technical support for campus events, enrollment requirement validation, IT lab computer maintenance, and livestreaming operations.
-          </p>
-        </section>
-
-        {/* Key Competencies */}
-        <section>
-          <h3 className="font-mono text-xs text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-2">
-            Key Competencies
-          </h3>
-          <p className="text-sm text-[#536159] dark:text-[#b2c0b7]">
-            Web Development (PHP, Next.js, HTML, CSS, JavaScript, Tailwind), Databases (PostgreSQL, MySQL), .NET MAUI / C#, Basic Hardware Programming (Arduino).
-          </p>
-        </section>
       </div>
     </div>
   );

@@ -1,111 +1,84 @@
-
+// src/components/Navbar.tsx
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
+import { Download } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
-const links = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Skills", href: "/skills" },
-  { label: "Projects", href: "/projects" },
-  { label: "Experience", href: "/experience" },
-  { label: "Contact", href: "/contact" },
+const navItems = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Skills", href: "/skills" },
+  { name: "Projects", href: "/projects" },
+  { name: "Achievements", href: "/achievements" },
+  { name: "Design", href: "/design" },
+  { name: "Experience", href: "/experience" },
+  { name: "Contact", href: "/contact" },
 ];
 
-export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [dark, setDark] = useState(false);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("portfolio-theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-
-    const useDark = savedTheme
-      ? savedTheme === "dark"
-      : prefersDark;
-
-    document.documentElement.classList.toggle("dark", useDark);
-    setDark(useDark);
-  }, []);
-
-  function toggleTheme() {
-    const nextTheme = !dark ? "dark" : "light";
-
-    document.documentElement.classList.toggle(
-      "dark",
-      nextTheme === "dark"
-    );
-
-    localStorage.setItem("portfolio-theme", nextTheme);
-    setDark(nextTheme === "dark");
-  }
+export default function Navbar({ resumeUrl }: { resumeUrl: string | null }) {
+  const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-[#f5f7f5]/95 backdrop-blur dark:border-white/10 dark:bg-[#0b100e]/95">
-      <nav
-        aria-label="Main navigation"
-        className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4"
-      >
-        <Link href="/" className="shrink-0 font-mono text-sm font-bold">
-          <span className="text-emerald-600 dark:text-emerald-400">
-            ~/{" "}
-          </span>
-          portfolio
+    <header className="sticky top-0 z-50 w-full border-b border-black/10 bg-white/85 backdrop-blur-md dark:border-white/10 dark:bg-[#090e0b]/85">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
+        <Link
+          href="/"
+          aria-label="Jhunnel C. Carillo home"
+          title="Jhunnel C. Carillo"
+          className="inline-flex size-10 overflow-hidden rounded-xl border border-emerald-500/30 bg-emerald-500/10 transition-colors hover:border-emerald-500/60 hover:bg-emerald-500/15"
+        >
+          <Image
+            src="/images/profile/logo.png"
+            alt=""
+            width={40}
+            height={40}
+            priority
+            className="h-full w-full object-cover"
+          />
         </Link>
 
-        <div className="hidden items-center gap-5 text-sm md:flex">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-[#536159] transition hover:text-emerald-600 dark:text-[#b2c0b7] dark:hover:text-emerald-400"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
+        <nav className="hidden items-center gap-1 rounded-full border border-black/10 bg-[#edf1ed] p-1.5 shadow-md dark:border-white/10 dark:bg-[#111916] md:flex">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`relative rounded-full px-4 py-1.5 font-mono text-xs font-medium transition-colors duration-200 ${
+                  isActive ? "text-white" : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="active-nav-pill"
+                    className="absolute inset-0 z-0 rounded-full bg-emerald-600 shadow-sm"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+
+                <span className="relative z-10">{item.name}</span>
+              </Link>
+            );
+          })}
+        </nav>
 
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={toggleTheme}
-            aria-label={`Switch to ${dark ? "light" : "dark"} mode`}
-            className="rounded-lg border border-black/10 px-3 py-2 text-sm hover:border-emerald-600 dark:border-white/15 dark:hover:border-emerald-400"
-          >
-            {dark ? "☀️" : "🌙"}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-expanded={menuOpen}
-            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-            className="rounded-lg border border-black/10 px-3 py-2 text-sm md:hidden dark:border-white/15"
-          >
-            {menuOpen ? "✕" : "☰"}
-          </button>
+          <ThemeToggle />
+          <a
+          href={resumeUrl || "/Jhunnel-Carillo-Resume.pdf?v=2026-10-19"}
+          download
+          className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 font-mono text-[10px] font-semibold text-emerald-300 transition hover:border-emerald-400 hover:bg-emerald-500/15"
+        >
+          <Download size={12} />
+          Resume
+          </a>
         </div>
-      </nav>
-
-      {menuOpen && (
-        <div className="border-t border-black/10 px-6 py-3 md:hidden dark:border-white/10">
-          <div className="mx-auto flex max-w-6xl flex-col gap-1">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="rounded-lg px-3 py-3 text-sm hover:bg-black/5 dark:hover:bg-white/5"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+      </div>
     </header>
   );
 }

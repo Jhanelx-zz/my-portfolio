@@ -1,10 +1,15 @@
 // src/app/data/projects.ts
 
+export interface Screenshot {
+  url: string;
+  caption: string;
+}
+
 export interface Project {
   slug: string;
   name: string;
   category: string;
-  status: "Completed" | "In Progress" | "Academic Concept";
+  status: string;
   shortDescription: string;
   fullDescription: string;
   problem: string;
@@ -13,8 +18,11 @@ export interface Project {
   stack: string[];
   features: string[];
   lessonsLearned: string[];
+  coverImage: string | null;
+  screenshots: Screenshot[];
   githubUrl?: string;
   demoUrl?: string;
+  isFeatured?: boolean;
 }
 
 export const projectsData: Project[] = [
@@ -23,77 +31,128 @@ export const projectsData: Project[] = [
     name: "Mendoza's Feeds and Rice Store POS & Inventory System",
     category: "Business Management System",
     status: "In Progress",
+    coverImage: "/images/mendoza-store.png",
+    screenshots: [
+      {
+        url: "/images/mendoza-store.png",
+        caption: "POS Cashier Terminal — Wholesale & Retail Checkout Interface",
+      },
+      {
+        url: "/images/mndoza-dashboard.png",
+        caption: "Inventory Stock Levels & Rice/Feeds Category Management",
+      },
+      {
+        url: "/images/mendoza-credit.png",
+        caption: "Customer Debt & Payment Record Ledger",
+      },
+      {
+        url: "/images/mendoza-reports.png",
+        caption: "Daily Sales Summary & Transaction Logs",
+      },
+    ],
     shortDescription:
-      "A tailored Point-of-Sale (POS) and inventory management web application for wholesale and retail rice and feed store operations.",
+      "A tailored Point-of-Sale (POS) and inventory management application customized for wholesale and retail sales of rice and feeds at Mendoza's Store in Pinagbirayan Malaki, Paracale.",
     fullDescription:
-      "A custom-built business management application designed specifically for Mendoza's Store in Paracale, Camarines Norte. It streamlines daily sales transactions, tracks inventory levels for rice and animal feeds, and provides real-time stock notifications.",
+      "A custom-built business management system built for Mendoza's Store in Paracale, Camarines Norte. It streamlines daily sales transactions, converts wholesale units (bags) into retail quantities (kilograms), tracks customer credit records, and alerts managers when stock levels run low.",
     problem:
-      "Manual ledger tracking and paper receipts caused inventory discrepancies, delayed transaction times, and difficulties tracking customer credit/debts for wholesale and retail sales.",
+      "Manual ledger logging and paper receipts caused inventory discrepancies, delayed cashier transaction times, and made tracking customer debt difficult across high-volume wholesale and retail orders.",
     solution:
-      "Developed a streamlined web interface focused strictly on rice and feeds categories, featuring rapid barcode/manual lookup, dual wholesale and retail pricing models, stock level warnings, and receipt generation.",
-    role: "Full-Stack Developer (Database design, backend logic, and user interface design)",
-    stack: ["PHP", "PostgreSQL", "JavaScript", "HTML5", "CSS3", "Tailwind CSS"],
+      "Engineered a streamlined POS application focused strictly on rice and feeds categories, featuring rapid barcode/manual item lookup, dual pricing rules, real-time stock deductions, and digital ledger tracking.",
+    role: "Full-Stack Developer (Database Schema Design, Backend PHP Logic, and UI/UX Layout)",
+    stack: ["PHP", "PostgreSQL", "MySQL", "JavaScript", "HTML5", "Tailwind CSS"],
     features: [
-      "Wholesale and retail unit conversions (e.g., bags to kilograms)",
-      "Stock level alerts for fast-moving rice and feed varieties",
-      "Customer credit/debt tracking and payment record logging",
-      "Printable receipts and daily transaction summaries",
+      "Wholesale and retail unit conversions (bags to kilograms)",
+      "Automated stock level threshold warnings for rice varieties and feeds",
+      "Customer debt ledger logging and payment history tracking",
+      "Printable receipt formatting and end-of-day sales auditing",
     ],
     lessonsLearned: [
-      "Designing relational schemas for flexible product units and sales categories",
-      "Structuring clean SQL queries for accurate stock deduction and reporting",
-      "Balancing simple user interfaces for non-technical retail operators",
+      "Designing relational database schemas for complex product unit conversions",
+      "Structuring clean SQL queries for stock deduction and accurate financial reports",
+      "Building accessible user interfaces for non-technical retail operators",
     ],
+    githubUrl: "https://github.com/Jhanelx-zz/mendoza-store-pos",
+  },
+  {
+    slug: "iskalawihao-portal",
+    name: "iSKalawihao — Youth Council Budget Transparency Portal",
+    category: "Web Application",
+    status: "Completed",
+    coverImage: "/images/iskalawihao.jpg",
+    screenshots: [
+      {
+        url: "/images/iskalawihao.jpg",
+        caption: "Public Budget Transparency Overview & Disbursement Charts",
+      },
+      {
+        url: "/images/iskalawihao-admin.jpeg",
+        caption: "Admin Panel for Project Expenses & Document File Uploads",
+      },
+      {
+        url: "/images/iskalawihao-reports.jpeg",
+        caption: "Categorized Financial Report Archive & Public Downloads",
+      },
+    ],
+    shortDescription:
+      "A web-based budget tracking and document transparency system designed and developed for the Sangguniang Kabataan of Barangay Alawihao.",
+    fullDescription:
+      "A community transparency web platform enabling youth council officials to post public budget allocations, document project expenditures, and allow local youth constituents to review official financial disbursements.",
+    problem:
+      "Lack of centralized digital platforms for barangay youth council records hindered public transparency, making document retrieval slow and inefficient.",
+    solution:
+      "Built a secure web portal where administrators upload verified expense receipts and project documents while community members view interactive budget breakdown visualizers.",
+    role: "Backend & Database Developer",
+    stack: ["PHP", "MySQL", "JavaScript", "HTML5", "Bootstrap"],
+    features: [
+      "Secure admin portal for document uploads and project budget entries",
+      "Public transparency overview dashboard with expense breakdowns",
+      "Categorized financial record filtering and PDF report access",
+    ],
+    lessonsLearned: [
+      "Implementing user authentication and session management in PHP",
+      "Managing secure file uploads and organizing relational database tables",
+    ],
+    githubUrl: "https://github.com/Jhanelx-zz/iskalawihao-portal",
   },
   {
     slug: "daet-tourism-alert-system",
     name: "Daet Tourism Crisis Communication & Emergency Alert System",
     category: "Academic Capstone Concept",
     status: "Academic Concept",
+    coverImage: "/images/daet-tourism.png",
+    screenshots: [
+      {
+        url: "/images/daet-tourism.png",
+        caption: "Emergency Crisis Advisory Broadcasting Dashboard",
+      },
+      {
+        url: "/images/daet-map.png",
+        caption: "Interactive Tourist Emergency Map & Spot Safety Advisories",
+      },
+      {
+        url: "/images/daet-guide.png",
+        caption: "Mobile Tourist Safety Guidelines & Emergency Hotline Directory",
+      },
+    ],
     shortDescription:
-      "A proposed crisis communication platform to disseminate urgent alerts and emergency updates to tourists and local authorities.",
+      "A proposed crisis communication platform to disseminate urgent alerts and emergency updates to tourists and local municipal authorities.",
     fullDescription:
-      "An academic capstone concept aimed at strengthening disaster and crisis communication within Daet, Camarines Norte. The system outlines automated emergency messaging, administrator dashboards, and tourist safety guide management.",
+      "An academic capstone concept aimed at strengthening disaster and crisis communication within Daet, Camarines Norte. The system outlines automated emergency broadcasting, municipal admin dashboards, and tourist safety guide management.",
     problem:
-      "Tourists visiting local spots during unexpected weather conditions or emergencies often lack immediate access to verified safety announcements and localized advisory updates.",
+      "Tourists visiting local coastal and eco-tourism spots during unexpected weather conditions often lack immediate access to verified municipal advisories.",
     solution:
-      "Conceptualized a centralized admin dashboard for local government units to publish real-time alerts, broadcast emergency advisories, and maintain visible safety guidelines.",
+      "Conceptualized a centralized admin dashboard for local government units to broadcast real-time safety alerts and maintain accessible emergency hotline directories.",
     role: "Lead Concept Developer & UI/UX Wireframer",
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "Figma"],
     features: [
       "Real-time crisis advisory broadcasting dashboard",
       "Tourist guide and safety resource directory",
-      "Emergency contact routing for local authorities",
-      "Offline communication guidance during power or network outages",
+      "Emergency contact routing for municipal emergency responders",
     ],
     lessonsLearned: [
-      "Designing responsive layouts tailored for quick mobile viewing during emergencies",
-      "Structuring crisis communication workflows for public safety personnel",
+      "Designing responsive layouts optimized for fast mobile viewing during emergencies",
+      "Structuring public safety communication workflows for local government units",
     ],
-  },
-  {
-    slug: "iskalawihao-portal",
-    name: "iSKalawihao - Youth Council Budget Transparency Portal",
-    category: "Web Application",
-    status: "Completed",
-    shortDescription:
-      "A web-based budget tracking and document upload transparency system built for the Sangguniang Kabataan of Barangay Alawihao.",
-    fullDescription:
-      "A community transparency portal enabling youth council officers to post public budget allocations, document financial disbursements, and allow community members to view local SK projects and expenditures.",
-    problem:
-      "Lack of centralized digital platforms for youth council budget records hindered public transparency and manual documentation was slow to access.",
-    solution:
-      "Built a web portal where administrators can upload verified expense records, log project funds, and display interactive budget breakdown charts to the public.",
-    role: "Backend & Database Developer",
-    stack: ["PHP", "MySQL", "JavaScript", "HTML5", "Bootstrap"],
-    features: [
-      "Admin portal for document uploads and project budget entries",
-      "Public transparency overview dashboard",
-      "Categorized financial report filtering",
-    ],
-    lessonsLearned: [
-      "Implementing user role authentication and secure session management in PHP",
-      "Managing file uploads and organizing database record relationships",
-    ],
+    githubUrl: "https://github.com/Jhanelx-zz/daet-tourism-alert",
   },
 ];

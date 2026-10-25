@@ -20,6 +20,13 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Portfolio CMS
+
+The Supabase-backed portfolio CMS setup, migrations, single-admin configuration,
+and deployment steps are documented in [docs/CMS_SETUP.md](./docs/CMS_SETUP.md).
+The public site remains available with its local portfolio data until Supabase
+is configured.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
