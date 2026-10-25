@@ -5,7 +5,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, BriefcaseBusiness, Code2, FolderGit2, Sparkles } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, Code2, FolderGit2 } from "lucide-react";
 import type { Project } from "./data/projects";
 import type { PublicExperience, PublicProfile } from "@/lib/cms/public-data";
 import FadeIn from "./components/FadeIn";
@@ -35,11 +35,6 @@ export default function HomeView({
 }) {
   const displaySkills = publishedSkills ?? skills;
   const featuredProjects = projects.filter((project) => project.isFeatured !== false);
-  const stats = [
-    { value: projects.length, label: "Projects built" },
-    { value: 3, label: "Core stacks" },
-    { value: experiences === null ? 2 : experiences.length, label: "Hands-on roles" },
-  ];
 
   return (
     <div className="min-h-screen selection:bg-emerald-500 selection:text-white">
@@ -48,7 +43,7 @@ export default function HomeView({
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-emerald-700 dark:text-emerald-400">
             <span className="flex items-center gap-2">
               <span className="status-dot" />
-              system_status: operational
+              status: operational
             </span>
             <span className="editorial-badge">Available for OJT 2026</span>
           </div>
@@ -69,10 +64,6 @@ export default function HomeView({
 
           <FadeIn delay={0.3} className="editorial-card glow-card flex flex-col justify-between">
             <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-md border border-emerald-700/20 bg-emerald-700/10 px-3 py-1 font-mono text-xs text-emerald-800 dark:border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-400">
-                <Sparkles size={12} />
-                {"// developer_profile"}
-              </div>
               <h1 className="text-3xl font-extrabold tracking-tight text-gray-950 dark:text-white sm:text-4xl">
                 <span className="block">{profile?.displayName || "Jhunnel C."}</span>
                 <span className="text-gradient block">
@@ -104,20 +95,6 @@ export default function HomeView({
           </FadeIn>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-3">
-          {stats.map((stat) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.35 }}
-              className="rounded-2xl border border-white/10 bg-[#111916]/80 p-5 shadow-lg shadow-emerald-950/10 backdrop-blur-sm"
-            >
-              <div className="font-mono text-3xl font-bold text-emerald-700 dark:text-emerald-400">{stat.value}+</div>
-              <p className="mt-2 text-xs uppercase tracking-[0.2em] text-[#b2c0b7]">{stat.label}</p>
-            </motion.div>
-          ))}
-        </div>
       </section>
 
       <section id="about" className="border-y border-black/10 bg-[#e9efeb] dark:border-white/10 dark:bg-[#0c120f]">
@@ -279,7 +256,6 @@ export default function HomeView({
         <FadeIn delay={0.1}>
           <div className="editorial-card flex flex-wrap items-center justify-between gap-6 border-emerald-700/20 bg-gradient-to-r from-emerald-100 via-white to-white p-10 dark:border-emerald-500/30 dark:bg-gradient-to-r dark:from-emerald-950/40 dark:via-[#111916] dark:to-[#111916]">
             <div>
-              <p className="font-mono text-xs text-emerald-700 dark:text-emerald-400">visitor@portfolio:~$ ready_for_ojt --connect</p>
               <h3 className="mt-2 text-2xl font-bold text-gray-950 dark:text-white">Looking for an OJT student or collaborator?</h3>
               <p className="mt-1 text-sm text-[#536159] dark:text-[#b2c0b7]">
                 I am ready to learn, contribute where I can, and keep growing through hands-on OJT experience.
