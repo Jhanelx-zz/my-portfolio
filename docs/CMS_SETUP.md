@@ -12,11 +12,12 @@ Create a project in Supabase and keep its project URL and publishable key
 private to your local environment and deployment settings. Do not add a
 service-role key to this application.
 
-In **Authentication → Providers → Email**, keep email/password sign-in enabled
-and disable public sign-ups. The local Supabase config also disables both
-`[auth].enable_signup` and `[auth.email].enable_signup`. Create the administrator
-account yourself from the Supabase Dashboard's **Authentication → Users** page;
-do not enable public registration or expose a registration flow.
+In the hosted project's **Authentication → Providers → Email** settings, keep
+email/password sign-in enabled and disable public sign-ups. The local Supabase
+config also disables both `[auth].enable_signup` and
+`[auth.email].enable_signup`. Create the administrator account yourself from the
+Supabase Dashboard's **Authentication → Users** page; do not expose a public
+registration flow.
 
 ## 2. Apply the database migrations
 
